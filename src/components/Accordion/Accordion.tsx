@@ -1,7 +1,7 @@
 import React from "react";
 import {AccordionTitle} from "./AccordionTitle";
 import {AccordionBody} from "./AccordionBody";
-import {ItemsType} from "../../App";
+import {ItemType} from "../../App";
 
 
 
@@ -9,8 +9,9 @@ export type AccordionPropsType = {
     titleValue: string
     collapsed: boolean
     setCollapsed: (collapsed: boolean) => void
-    items: Array<ItemsType>
+    items: Array<ItemType>
     color?:string
+    onClick: (value: number) => void
 }
 
 export const Accordion = (props: AccordionPropsType) => {
@@ -21,7 +22,7 @@ export const Accordion = (props: AccordionPropsType) => {
                             setCollapsed={props.setCollapsed}
                             color={props.color}
             />
-            {!props.collapsed && <AccordionBody items={props.items}/>}
+            {!props.collapsed && <AccordionBody onClick={props.onClick} items={props.items}/>}
         </div>
     )
 }

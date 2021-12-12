@@ -34,6 +34,7 @@ export default {
 }
 
 const callback = action('Accordion un/collapsed');
+const clickCallback = action('item was clicked');
 const Template: Story<AccordionPropsType> = (args) => <Accordion {...args}/>
 
 export const CollapsedMode = Template.bind({})
@@ -41,6 +42,7 @@ CollapsedMode.args = {
     titleValue: 'menu',
     collapsed: false,
     setCollapsed: callback,
+    onClick: clickCallback,
     items: [{title: 'Pavel', value: 1},
         {title: 'Alex', value: 2},
         {title: 'Vladimir', value: 3}]
@@ -51,6 +53,7 @@ UsersUncollapsedMode.args = {
     titleValue: 'Users',
     collapsed: true,
     setCollapsed: callback,
+    onClick: clickCallback,
     items: [{title: "1", value: 1}]
 }
 
@@ -59,6 +62,7 @@ export const ModeChanging: Story<AccordionPropsType> = (args) => {
     return <Accordion {...args}
                       collapsed={collapsed}
                       setCollapsed={() => setCollapsed(!collapsed)}
+                      onClick={(id) => alert(`user with id:${id} should be happy!!!`) }
     />
 }
 ModeChanging.args = {

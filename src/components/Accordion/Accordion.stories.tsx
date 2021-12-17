@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useReducer} from 'react';
 import {action} from "@storybook/addon-actions";
 import {Accordion, AccordionPropsType} from "./Accordion";
 import {Story} from "@storybook/react";
+import {AccordionReducer, initialState, toggleCollapsed} from "./AccordionReducer";
 
 
 const GetCategoryObj = (nameCategory: string) => ({
@@ -40,7 +41,7 @@ const Template: Story<AccordionPropsType> = (args) => <Accordion {...args}/>
 export const CollapsedMode = Template.bind({})
 CollapsedMode.args = {
     titleValue: 'menu',
-    collapsed: false,
+    state: initialState,
     setCollapsed: callback,
     onClick: clickCallback,
     items: [{title: 'Pavel', value: 1},
@@ -51,17 +52,22 @@ CollapsedMode.args = {
 export const UsersUncollapsedMode = Template.bind({})
 UsersUncollapsedMode.args = {
     titleValue: 'Users',
-    collapsed: true,
+    state: {collapsed: true},
     setCollapsed: callback,
     onClick: clickCallback,
     items: [{title: "1", value: 1}]
 }
 
+
+
 export const ModeChanging: Story<AccordionPropsType> = (args) => {
-    const [collapsed, setCollapsed] = useState(false)
+    //const [collapsed, setCollapsed] = useState(false)
+    const [state, dispatch] = useReducer(AccordionReducer, initialState)
+
     return <Accordion {...args}
-                      collapsed={collapsed}
-                      setCollapsed={() => setCollapsed(!collapsed)}
+                      state={state}
+                      //setCollapsed={() => setCollapsed(!collapsed)}
+                      setCollapsed={() => dispatch(toggleCollapsed())}
                       onClick={(id) => alert(`user with id:${id} should be happy!!!`) }
     />
 }

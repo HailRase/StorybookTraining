@@ -1,16 +1,17 @@
 import React from "react";
+import {InitialStateType} from "./AccordionReducer";
 
 
 type  AccordionTitlePropsType = {
     title: string
-    collapsed: boolean
-    setCollapsed: (collapsed: boolean) => void
+    state: InitialStateType
+    setCollapsed: () => void
     color?: string
 }
 
 export const AccordionTitle = (props: AccordionTitlePropsType) => {
     return (
-        <h1 onClick={() =>props.setCollapsed(!props.collapsed)}
+        <h1 onClick={props.setCollapsed}
             style={{color: props.color ? props.color : 'black'}}
         >{props.title}</h1>
     )

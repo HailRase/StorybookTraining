@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 
 export default {
     title: 'UseMemo'
@@ -11,7 +11,7 @@ export const DifficultCountingWithUseMemo = () => {
     let resultA = 1
     let resultB = 1
 
-    useMemo(()=>{
+    useMemo(() => {
         for (let i = 1; i <= a; i++) {
             let fake = 0
             while (fake < 50000000) {
@@ -60,7 +60,7 @@ export const HelpForReactMemo = () => {
     }
 
     const filteredUsers = useMemo(() => {
-        return users.filter(u=> u.toLowerCase().indexOf('a') > -1)
+        return users.filter(u => u.toLowerCase().indexOf('a') > -1)
     }, [users])
     return (
         <div>
@@ -71,3 +71,45 @@ export const HelpForReactMemo = () => {
         </div>
     );
 };
+
+
+export const LikeUseCallback = () => {
+    console.log('LikeUseCallback')
+    const [count, setCount] = useState(0)
+    const [books, setBooks] = useState(['React', 'Js', 'Css', 'HTML'])
+
+    const inc = () => {
+        setCount(count + 1)
+    }
+
+    const MemoizedInc = useMemo(() => {
+      return inc
+    }, [count])
+
+    const addBook = useCallback(() => {
+        setBooks(/*books.filter(u => u.toLowerCase().indexOf('a') < -1)  */ [...books, 'Sasha' + new Date().getTime()])
+    }, [books])
+
+    return (
+        <div>
+            <button onClick={MemoizedInc}>+</button>
+
+            {count}
+            <Book addBook={addBook}/>
+        </div>
+    );
+};
+
+type BooksSecretPropsType = {
+    addBook: () => void
+}
+
+const BooksSecret = (props: BooksSecretPropsType) => {
+    console.log('Books secret')
+    return (
+        <div>
+            <button onClick={() => props.addBook()}>add book</button>
+        </div>
+    )
+}
+const Book = React.memo(BooksSecret)
